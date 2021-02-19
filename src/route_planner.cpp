@@ -36,16 +36,13 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node)
 {
     current_node->FindNeighbors();
     for (RouteModel::Node *each_current_neighbor : current_node->neighbors)
-    { // looping through all current node neighbours
-    each_current_neighbor->parent=current_node; // set the parent 
-    each_current_neighbor->h_value=CalculateHValue(each_current_neighbor);// set the h value
-    each_current_neighbor->g_value=(current_node->g_value)+(current_node->distance(*each_current_neighbor));// set gavlue
-    open_list.push_back(each_current_neighbor);// added neighbor to open_list
-    each_current_neighbor->visited=true; // visited nodes as true.
-
-
-
-        }
+    {                                                                                                                // looping through all current node neighbours
+        each_current_neighbor->parent = current_node;                                                                // set the parent
+        each_current_neighbor->h_value = CalculateHValue(each_current_neighbor);                                     // set the h value
+        each_current_neighbor->g_value = (current_node->g_value) + (current_node->distance(*each_current_neighbor)); // set gavlue
+        open_list.push_back(each_current_neighbor);                                                                  // added neighbor to open_list
+        each_current_neighbor->visited = true;                                                                       // visited nodes as true.
+    }
 }
 
 // TODO 5: Complete the NextNode method to sort the open list and return the next node.
@@ -56,10 +53,10 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node)
 // - Return the pointer.
 
 //function to compare f=(g+h) values of two nodes
-bool Compare(RouteModel::Node* node1, RouteModel::Node* node2)
+bool Compare(RouteModel::Node *node1, RouteModel::Node *node2)
 {
-    int f_val_node1 = node1->h_value+node1->g_value;// calculating fvalue of first node
-    int f_val_node2 = node2->h_value+node2->g_value;// calculating fvalue of second node
+    int f_val_node1 = node1->h_value + node1->g_value; // calculating fvalue of first node
+    int f_val_node2 = node2->h_value + node2->g_value; // calculating fvalue of second node
 
     if (f_val_node1 > f_val_node2)
     {
@@ -69,21 +66,14 @@ bool Compare(RouteModel::Node* node1, RouteModel::Node* node2)
     return false;
 }
 
-
 RouteModel::Node *RoutePlanner::NextNode()
 {
     std::sort(open_list.begin(), open_list.end(), Compare); // sorting openlist vector descending order
-    RouteModel::Node* low_sum_node = open_list.back(); // creating and assigning the pointer to  node with lowest  f value
-    open_list.pop_back(); // delete the node from the list
+    RouteModel::Node *low_sum_node = open_list.back();      // creating and assigning the pointer to  node with lowest  f value
+    open_list.pop_back();                                   // delete the node from the list
 
     return low_sum_node; // return the pointer to node with lowest f value
-
-
-
 }
-
-
-
 
 // TODO 6: Complete the ConstructFinalPath method to return the final path found from your A* search.
 // Tips:
@@ -99,7 +89,17 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
     distance = 0.0f;
     std::vector<RouteModel::Node> path_found;
 
+    path_found.push_back(*current_node);
+
     // TODO: Implement your solution here.
+    while (current_node != start_node)
+    {
+        distance = distance + current_node->distance(*current_node->parent);// 
+        current_node = current_node->parent;
+        path_found.push_back(*current_node);
+    }
+
+    std::reverse(path_found.begin(),path_found.end());
 
     distance *= m_Model.MetricScale(); // Multiply the distance by the scale of the map to get meters.
     return path_found;
@@ -115,6 +115,6 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 void RoutePlanner::AStarSearch()
 {
     RouteModel::Node *current_node = nullptr;
-
+cd 
     // TODO: Implement your solution here.
 }
