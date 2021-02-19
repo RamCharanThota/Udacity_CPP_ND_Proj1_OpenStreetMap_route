@@ -55,9 +55,35 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node)
 // - Remove that node from the open_list.
 // - Return the pointer.
 
+//function to compare f=(g+h) values of two nodes
+bool Compare(RouteModel::Node* node1, RouteModel::Node* node2)
+{
+    int f_val_node1 = node1->h_value+node1->g_value;// calculating fvalue of first node
+    int f_val_node2 = node2->h_value+node2->g_value;// calculating fvalue of second node
+
+    if (f_val_node1 > f_val_node2)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+
 RouteModel::Node *RoutePlanner::NextNode()
 {
+    std::sort(open_list.begin(), open_list.end(), Compare); // sorting openlist vector descending order
+    RouteModel::Node* low_sum_node = open_list.back(); // creating and assigning the pointer to  node with lowest  f value
+    open_list.pop_back(); // delete the node from the list
+
+    return low_sum_node; // return the pointer to node with lowest f value
+
+
+
 }
+
+
+
 
 // TODO 6: Complete the ConstructFinalPath method to return the final path found from your A* search.
 // Tips:
