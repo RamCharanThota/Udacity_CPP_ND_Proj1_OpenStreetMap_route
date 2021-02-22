@@ -83,6 +83,7 @@ RouteModel::Node *RoutePlanner::NextNode()
 // - The returned vector should be in the correct order: the start node should be the first element
 //   of the vector, the end node should be the last element.
 
+// TODO 6: Complete the ConstructFinalPath method to return the final path found from your A* search.
 std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node *current_node)
 {
     // Create path_found vector
@@ -115,6 +116,23 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 void RoutePlanner::AStarSearch()
 {
     RouteModel::Node *current_node = nullptr;
-cd 
     // TODO: Implement your solution here.
+    start_node->visited=true;
+    open_list.push_back(start_node);
+    while(open_list.size()>0){
+        current_node=NextNode();
+        if (current_node==end_node){
+            m_Model.path=ConstructFinalPath(current_node);
+            break;
+
+        }else{
+            
+        }
+
+        AddNeighbors(current_node);
+
+    }
+
+    
+    
 }
